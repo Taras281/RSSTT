@@ -3,8 +3,10 @@ package com.example.rsstt;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
+import java.io.Serializable;
+
 @Root(name = "item", strict = false)
-public class Article {
+public class Article implements Serializable {
     @Element(name = "title")
     private String title;
 

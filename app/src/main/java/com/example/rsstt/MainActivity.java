@@ -3,6 +3,7 @@ package com.example.rsstt;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -138,8 +139,9 @@ public class MainActivity extends AppCompatActivity implements CallbackFromContr
     @Override
     public void returnRss(RSSFeed rss) {
         this.rss=rss;
-        String t="" ;
-        // Intent intent = new Intent(this, ActivityList.class);
-        // startActivity(intent);
+        Intent intent = new Intent(this, ListActivity.class);
+        intent.putExtra("title", rss.getChannelTitle());
+        intent.putExtra("rss", rss);
+        startActivity(intent);
     }
 }
