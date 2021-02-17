@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivitySearchRSS">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/et_rss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:imeOptions="actionDone"
+        android:hint="@string/enter_site"
+        android:textSize="18dp"
+        android:inputType="text"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/tv_url_rss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_rss"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="20dp"
+        android:hint="@string/found_rss"
+        android:textSize="14dp"></TextView>
+
+    <TextView
+        android:id="@+id/tv_name_rss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_url_rss"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="20dp"
+        android:hint="@string/name_RSS"
+        android:textSize="14dp"></TextView>
+
+    <TextView
+        android:id="@+id/tv_url_photo_rss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_name_rss"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="20dp"
+        android:hint="@string/link_item"
+        android:textSize="14dp"></TextView>
+
+    <Button
+        android:id="@+id/bt_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_url_photo_rss"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="20dp"
+        android:enabled="false"
+        android:text="сделать ссылку">
+
+    </Button>
+
+</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

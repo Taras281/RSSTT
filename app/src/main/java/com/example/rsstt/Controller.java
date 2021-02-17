@@ -2,9 +2,13 @@ package com.example.rsstt;
 
 import android.util.Log;
 
+import java.io.Serializable;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.jaxb.JaxbConverterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class Controller implements  retrofit2.Callback<RSSFeed> {
@@ -16,6 +20,7 @@ public class Controller implements  retrofit2.Callback<RSSFeed> {
     VogellaAPI vogellaAPI;
     Retrofit retrofit;
     Call<RSSFeed> call;
+    OkHttpClient client;
 
     Controller() {}
 
@@ -26,16 +31,29 @@ public class Controller implements  retrofit2.Callback<RSSFeed> {
         RSS=sufixRss;
         creatRetrofit();
     }
-    private void creatRetrofit(){
-        retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
-                .addConverterFactory(SimpleXmlConverterFactory.create())
-                .build();
 
+    private void creatRetrofit(){
+        client = new OkHttpClient.Builder()
+                .addInterceptor(new ErrorInterceptor())
+                .build();
+        retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
+
+                .addConverterFactory(SimpleXmlConverterFactory.create())
+
+                //.client(client)
+                .build();
         vogellaAPI = retrofit.create(VogellaAPI.class);
     }
 
     public void start() {
         call = vogellaAPI.loadRSSFeed(RSS);
+        if (RSS.equals("rss/news"))
+            call = vogellaAPI.loadRSSFeedNews();
+        if (RSS.equals("all.php"))
+            call = vogellaAPI.loadRSSFeedPHP();
+        if (RSS.equals("news.rss"))
+            call = vogellaAPI.loadRSSFeedNewsPointRss();
+
         call.enqueue(this);
     }
     @Override
@@ -46,7 +64,8 @@ public class Controller implements  retrofit2.Callback<RSSFeed> {
             obj.returnRss(rss);
 
         } else {
-
+            //call = vogellaAPI.loadRSSFeed();
+            //call.enqueue(this);
             Log.d("TAG", " NO     "+response.errorBody().toString());
         }
     }
@@ -67,6 +86,7 @@ public class Controller implements  retrofit2.Callback<RSSFeed> {
 
     public void register(CallbackFromController obj){
         this.obj = obj;
+        String name = this.obj.getClass().getName();
         String t="";
     }
 }

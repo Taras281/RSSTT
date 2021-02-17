@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">RSSTT</string>
+    <string name="action_settings">уведомления</string>
+    <string name="dialog_window">Удалить</string>
+    <string name="you_wanted_delite">Вы хотите удалить - </string>
+    <string name="button_yes">ДА</string>
+    <string name="button_no">Нет</string>
+    <string name="search_rss">Поиск лент</string>
+    <string name="requirement">Адрес должен начинаться с https://</string>
+    <string name="found_rss">Найдена ссылка на ленту: </string>
+    <string name="name_RSS">Имя RSS: </string>
+    <string name="link_item">Ссылка на иконку: </string>
+    <string name="bad_url">"Неправильный адрес</string>
+    <string name="enter_site">"Введите адрес сайта для поиска ленты</string>
+    <string name="make_link">"Cделать ссылку</string>
+</resources>

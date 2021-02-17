@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">RSSTT</string>
+    <string name="action_settings">notification</string>
+    <string name="dialog_window">Delite</string>
+    <string name="you_wanted_delite">You want to delete - </string>
+    <string name="button_yes">Yes</string>
+    <string name="button_no">No</string>
+    <string name="search_rss">Search RSS</string>
+    <string name="requirement">The address must start with https: //</string>
+    <string name="found_rss">Found RSS link: </string>
+    <string name="name_RSS">Name RSS: </string>
+    <string name="link_item">Link item: </string>
+    <string name="bad_url">"BAD URL</string>
+    <string name="enter_site">"Enter site url for RSS search</string>
+    <string name="make_link">"Make link</string>
 </resources>

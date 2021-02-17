@@ -47,5 +47,9 @@ public class CreatViewtem implements Serializable {
     public View getView(){
         return view;
     }
+    public String getName(){
+        return tv.getText().toString();
+    }
+    public CheckBox getCheckBox(){return cb;}
 
 }

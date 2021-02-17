@@ -6,19 +6,50 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/scrool_view"
-        android:orientation="vertical">
-        <LinearLayout
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+
+
+        <ScrollView
+            android:id="@+id/scrool_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/linear_main"
-            tools:ignore="Orientation">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="84dp"
+            tools:layout_editor_absoluteY="49dp">
 
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:ignore="Orientation">
 
-    </ScrollView>
+            </LinearLayout>
+
+        </ScrollView>
+
+
+    </LinearLayout>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fab"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        android:src="@drawable/plus3"
+
+        app:rippleColor="@color/white"
+        tools:ignore="MissingConstraints">
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

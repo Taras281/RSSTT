@@ -1,5 +1,6 @@
 package com.example.rsstt;
 
+import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Path;
@@ -10,6 +11,8 @@ import java.util.List;
 
 @Root(name="rss", strict=false)
 public class RSSFeed implements Serializable {
+
+
     @Element(name="title")
     @Path("channel")
     private String channelTitle;
@@ -18,9 +21,9 @@ public class RSSFeed implements Serializable {
     @Path("channel")
     private List<Article> articleList;
 
-    @Element(name="url")
+    @Element(name="link")
     @Path("channel/image")
-    // @Path("channel")
+     //@Path("channel")
     private String image;
 
 
@@ -32,15 +35,9 @@ public class RSSFeed implements Serializable {
         this.channelTitle = channelTitle;
     }
 
-    public List<Article> getArticleList() {
-        return articleList;
-    }
+    public List<Article> getArticleList() {        return articleList;    }
 
-    public void setArticleList(List<Article> articleList) {
-        this.articleList = articleList;
-    }
+    public void setArticleList(List<Article> articleList) { this.articleList = articleList; }
 
-    public String getImage() {
-        return image;
-    }
+    public String getImage() { return image; }
 }
