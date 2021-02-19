@@ -429,12 +429,8 @@ diagnostic();
 
 
 
-public void startNotif(){
-    timeZaprosRSS = 600000;// периодичность запроса лент
-    timerTaskRSS = new TimerTask() {
-        @Override
-        public void run() {
-            listChanalForNotife = new ArrayList<>();// переписываем массив ссылок для уведомлений
+    public void startNotif(){
+
             for (int i =0; i<listUrlRSS.size();i++) {
                 if (listChecer.get(i)) {
                     HashMap<String, String> hm= new HashMap<>();
@@ -444,22 +440,11 @@ public void startNotif(){
                 }
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        startForegroundService(new Intent(MainActivity.mainactivityContext, ServiceNotife.class).putExtra("LIST", listChanalForNotife));
-                    }
-                }).start();
+               startForegroundService(new Intent(MainActivity.mainactivityContext, ServiceNotife.class).putExtra("LIST", listChanalForNotife));
             }
 
-            int y = 8;// здесь создавать уведомления
-            int ya = 8;// здесь создавать уведомления
-            ya = ya + y;
-        }
-    };
-    timerRSS.schedule(timerTaskRSS,0,timeZaprosRSS);
-}
+
+     }
 
 
 

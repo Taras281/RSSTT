@@ -40,6 +40,7 @@ public class ServiceNotife extends Service {
     String LINK = "LINK";
     String DATA = "DATA";
     String NAMERSS = "NAMERSS";
+    final int TIME_TIMER=60000;
     public ServiceNotife() {
     }
 
@@ -52,7 +53,7 @@ public class ServiceNotife extends Service {
         super.onCreate();
         listlastRSSFeed = new ArrayList<>();
         count=0;
-
+        ExecutorService service = Executors.newFixedThreadPool(10);
         CHANNEL_ID = "my_channel_01";
         NotificationChannel channel = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -69,11 +70,33 @@ public class ServiceNotife extends Service {
                 .setContentTitle("RSS start notif")
                 .setSmallIcon(R.drawable.rss)
                 .setAutoCancel(true).build();
-
                 startForeground(1, notification);
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        final Timer timer  = new Timer();
+        final TimerTask tt = new TimerTask() {
+            @Override
+            public void run() {
+               final Thread tr = new Thread(new Runnable() {
+
+                   @Override
+                   public void run() {
+                       Log.d("TAG", "ALL THREADS_>"+Thread.activeCount());
+
+                       onStartComandForRunnable(intent, flags, startId);
+                   }
+               }); tr.start();
+
+            }
+        };
+
+        timer.schedule(tt,0, TIME_TIMER);
+        return START_STICKY;
+    }
+
+    private int onStartComandForRunnable(Intent intent, int flags, int startId){
         listChanalForNotife= (ArrayList<HashMap<String, String>>) intent.getSerializableExtra("LIST");
         if (listChanalForNotife==null|| listChanalForNotife.size()<1)
             return START_STICKY;
@@ -86,30 +109,34 @@ public class ServiceNotife extends Service {
             futures.add(future);
         }
         listRSSFeed = new ArrayList<>();
-        for (int i =0; i<listChanalForNotife.size();i++) {
+
+        for (int i =0; i<futures.size();i++) {
             try {
                 listRSSFeed.add((RSSFeed) futures.get(i).get());
+
             } catch (ExecutionException e) {
                 // e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        if (listRSSFeed.size()>0){// если список есть  то делаем прошлый список и вызываем метод для сравнения списков
+
+
+        if (listRSSFeed!=null&&listRSSFeed.size()>0){// если список есть  то делаем прошлый список и вызываем метод для сравнения списков
             if (listlastRSSFeed.size()>0){
                 compareList(listlastRSSFeed, listRSSFeed);}
             for (int i =0;i<listRSSFeed.size();i++){
                 listlastRSSFeed.add(i, listRSSFeed.get(i));
-                 if (listlastRSSFeed.size()>listRSSFeed.size()){
-                     listlastRSSFeed.remove(listRSSFeed.size());}
+                if (listlastRSSFeed.size()>listRSSFeed.size()){
+                    listlastRSSFeed.remove(listlastRSSFeed.size()-1);}
             }
         }
-         return START_STICKY;
+        return START_STICKY;
     }
 
     public void onDestroy() {
         super.onDestroy();
-        Log.d("TAGER", "SERVISE Destroy");
+        //Log.d("TAGER", "SERVISE Destroy");
     }
 
     public void myNotyf(ArrayList<HashMap<String,String>> list){
@@ -183,14 +210,13 @@ public class ServiceNotife extends Service {
     }
 
     private void compareList(ArrayList<RSSFeed> lastlist, ArrayList<RSSFeed> currentlist){
-        Log.d("TAGER", "Im WORK->"+Thread.currentThread().hashCode());
+
         listRSSForNotife = new ArrayList<>();// список HASH Mapod  для уведомлений
         int minSizeList = Math.min(currentlist.size(), lastlist.size());
         for (int j=0; j<minSizeList; j++){ // перебор объектов лент
             for (int i=0; i<1;i++){// перебор по Title  в лентах
                 String s1 = currentlist.get(j).getArticleList().get(i).getTitle();
                 String s2 = lastlist.get(j).getArticleList().get(i).getTitle();
-
                 if (!s1.equals(s2)){
                 HashMap<String, String> hm = new HashMap<>();
                 hm.put(TITLE,currentlist.get(j).getArticleList().get(i).getTitle());
@@ -204,7 +230,7 @@ public class ServiceNotife extends Service {
         }
         if (listRSSForNotife.size()>0){
             myNotyf(listRSSForNotife);
-           // Log.d("TAGER", "Im send notife " + listRSSForNotife.get(0).get(NAMERSS)+"   "+ listRSSForNotife.get(0).get(TITLE));
+
         }
 
     }
