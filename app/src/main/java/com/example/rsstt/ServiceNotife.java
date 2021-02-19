@@ -83,7 +83,7 @@ public class ServiceNotife extends Service {
 
                    @Override
                    public void run() {
-                       Log.d("TAG", "ALL THREADS_>"+Thread.activeCount());
+                      // Log.d("TAG", "ALL THREADS_>"+Thread.activeCount());
 
                        onStartComandForRunnable(intent, flags, startId);
                    }
