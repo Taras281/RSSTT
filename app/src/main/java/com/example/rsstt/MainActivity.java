@@ -90,7 +90,8 @@ public class MainActivity extends AppCompatActivity implements CallbackFromContr
     int timeZaprosRSS;
     Timer timerRSS= new Timer();
     TimerTask timerTaskRSS;
-    ArrayList<HashMap<String, String>> listChanalForNotife;
+    //ArrayList<HashMap<String, String>> listChanalForNotife;
+    HashSet<HashMap<String, String>> listChanalForNotife;
     String URL = "URL";
     String NAME = "NAME";
     String TITLE = "TITLE";
@@ -125,11 +126,12 @@ public void onStop() {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Thread.setDefaultUncaughtExceptionHandler(new TryMe(this, "eror "+getClass().getPackage().getName()+".txt"));
         mainactivityContext= getApplicationContext();
         application = getApplication();
         mainActivityActivity = this;
 
-diagnostic();
+        diagnostic();
 
         Log.d("TAG", "Creat" + "creater");
 
@@ -152,7 +154,7 @@ diagnostic();
         listUrlPicture = new ArrayList<String>();
         listUrlRSS = new ArrayList<String>();
         listChecer = new ArrayList<>();
-        listChanalForNotife = new ArrayList<>();
+        listChanalForNotife = new HashSet<>();
 
         listNameRss.add("Lenta.ru : Новости");
         listUrlPicture.add("https://lenta.ru/images/small_logo.png");
@@ -430,7 +432,7 @@ diagnostic();
 
 
     public void startNotif(){
-
+        listChanalForNotife = new HashSet<>();
             for (int i =0; i<listUrlRSS.size();i++) {
                 if (listChecer.get(i)) {
                     HashMap<String, String> hm= new HashMap<>();
@@ -439,8 +441,13 @@ diagnostic();
                     listChanalForNotife.add(hm);
                 }
             }
+            ArrayList<HashMap<String, String>>  newarray = new ArrayList<>();
+            for (HashMap<String, String> hm: listChanalForNotife){
+                newarray.add(hm);
+            }
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-               startForegroundService(new Intent(MainActivity.mainactivityContext, ServiceNotife.class).putExtra("LIST", listChanalForNotife));
+               startForegroundService(new Intent(MainActivity.mainactivityContext, ServiceNotife.class).putExtra("LIST", newarray));
             }
 
 

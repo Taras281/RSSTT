@@ -33,9 +33,7 @@ public class Controller implements  retrofit2.Callback<RSSFeed> {
     }
 
     private void creatRetrofit(){
-        client = new OkHttpClient.Builder()
-                .addInterceptor(new ErrorInterceptor())
-                .build();
+
         retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
 
                 .addConverterFactory(SimpleXmlConverterFactory.create())
