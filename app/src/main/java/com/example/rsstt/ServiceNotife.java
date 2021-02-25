@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
@@ -66,6 +67,9 @@ public class ServiceNotife extends Service {
             channel = new NotificationChannel(CHANNEL_ID,
                     "Channel human readable title",
                     NotificationManager.IMPORTANCE_DEFAULT);
+            channel.enableLights(true);
+            channel.setLightColor(Color.RED);
+            channel.enableVibration(true);
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -152,10 +156,15 @@ public class ServiceNotife extends Service {
                 Notification notification = new NotificationCompat.Builder(MainActivity.mainactivityContext, CHANNEL_ID)
                         .setContentTitle(list.get(i).get(NAMERSS))
                         .setContentText(list.get(i).get(TITLE))
-                        .setStyle(new NotificationCompat.InboxStyle()
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText(list.get(i).get(TITLE)))
+                       // .setStyle(new NotificationCompat.InboxStyle()
                                 //.addLine(list.get(i).get(TITLE))
-                                  .addLine(list.get(i).get(TITLE)))
+                      //     .addLine(list.get(i).get(TITLE)))
+
+
                         .setSmallIcon(R.drawable.rss)
+
+                        .setTimeoutAfter(7_200_000)
                         .setAutoCancel(true)
                         .setContentIntent(resultPendingIntent)
                         .build();
