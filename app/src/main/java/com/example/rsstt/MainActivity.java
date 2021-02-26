@@ -76,7 +76,9 @@ public class MainActivity extends AppCompatActivity implements CallbackFromContr
     RSSFeed rss;
     Controller controller;
     boolean isRotate = false;
-    final int NUM_COLUMN=3;
+    int NUM_COLUMN=3;
+    static int TIME_TIMER=60_000;// время запроса лент
+
 
     final String SAVED_NAME = "SAVED_NAME";
     final String SAVED_PICTURES = "SAVED_PICTURES";
@@ -108,6 +110,7 @@ public void onResume() {
     listUrlPicture =  myLoader(SAVED_PICTURES, listUrlPicture);
     listChecer = myLoaderBool(SAVED_BOOL, listChecer);
     flagMenuNotif=myLoaderFlagNotyf("FLAG_NOTIFY", flagMenuNotif);}
+    myLoaderCastomization();
     startNotif();// метод запускающий создание Таймера создающего потоки чтения RSS
     creatDisplay(listUrlPicture, listNameRss, listChecer, NUM_COLUMN);
 }
@@ -120,6 +123,7 @@ public void onStop() {
     mySaver(SAVED_PICTURES, listUrlPicture);
     mySaverBool(SAVED_BOOL, listChecer);
     mySaverFlag(flagMenuNotif);
+    mySaverCastomizat(TIME_TIMER, NUM_COLUMN);
 }
 
     @Override
@@ -392,6 +396,14 @@ public void onStop() {
         mEdit1.putString("FLAG_NOTIFY", jsonBool);
         mEdit1.apply();
     }
+// сохранение настроек
+    private void mySaverCastomizat(int timeReqest, int numColumn){
+
+        mEdit1.putInt("TIME_REQEST", timeReqest);
+        mEdit1.putInt("NUM_COLUMNT", numColumn);
+        mEdit1.apply();
+    }
+
     private ArrayList<String> myLoader(String key, ArrayList<String> list){
        Gson gson = new Gson();
        String jsonText = sp.getString(key, null);
@@ -420,7 +432,7 @@ public void onStop() {
     }
 
     private Boolean myLoaderFlagNotyf(String key, Boolean flag){
-        Gson gson = new Gson();
+
         String jsonBool = sp.getString("FLAG_NOTIFY", null);
           //EDIT: gso to gson
         if (jsonBool==null) {flag=false;}
@@ -429,7 +441,10 @@ public void onStop() {
         return flag;
     }
 
-
+    private void myLoaderCastomization(){
+    TIME_TIMER = sp.getInt("TIME_REQEST", 60*60_000);
+    NUM_COLUMN = sp.getInt("NUM_COLUMNT", 4);
+    }
 
     public void startNotif(){
         listChanalForNotife = new HashSet<>();

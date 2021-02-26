@@ -46,8 +46,9 @@ public class ServiceNotife extends Service {
     String LINK = "LINK";
     String DATA = "DATA";
     String NAMERSS = "NAMERSS";
-    final int TIME_TIMER=60_000;
+    final int TIME_TIMER=MainActivity.TIME_TIMER;
     Timer timer;
+
     public ServiceNotife() {
     }
 
