@@ -13,4 +13,6 @@
     <string name="bad_url">"BAD URL</string>
     <string name="enter_site">"Enter site url for RSS search</string>
     <string name="make_link">"Make link</string>
+    <string name="num_column">"Num column</string>
+    <string name="time_reqest">"Feed request period</string>
 </resources>

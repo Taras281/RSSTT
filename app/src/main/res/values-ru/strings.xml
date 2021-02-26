@@ -10,7 +10,9 @@
     <string name="found_rss">Найдена ссылка на ленту: </string>
     <string name="name_RSS">Имя RSS: </string>
     <string name="link_item">Ссылка на иконку: </string>
-    <string name="bad_url">"Неправильный адрес</string>
-    <string name="enter_site">"Введите адрес сайта для поиска ленты</string>
-    <string name="make_link">"Cделать ссылку</string>
+    <string name="bad_url">Неправильный адрес</string>
+    <string name="enter_site">Введите адрес сайта для поиска ленты</string>
+    <string name="make_link">Cделать ссылку</string>
+    <string name="num_column">Число столбцов</string>
+    <string name="time_reqest">Период запроса лент</string>
 </resources>

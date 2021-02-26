@@ -13,6 +13,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,6 +36,7 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -78,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements CallbackFromContr
     boolean isRotate = false;
     int NUM_COLUMN=3;
     static int TIME_TIMER=60_000;// время запроса лент
+    int DIALOG_TIME = 1;
+    int DIALOG_NUM_COLUMN = 2;
 
 
     final String SAVED_NAME = "SAVED_NAME";
@@ -442,7 +446,7 @@ public void onStop() {
     }
 
     private void myLoaderCastomization(){
-    TIME_TIMER = sp.getInt("TIME_REQEST", 60*60_000);
+    TIME_TIMER = sp.getInt("TIME_REQEST", 90*60*1_000);
     NUM_COLUMN = sp.getInt("NUM_COLUMNT", 4);
     }
 
@@ -530,6 +534,38 @@ public void onStop() {
 // И еще одну строку, так, для теста
         Diagnostics.i(this, "onCreate completed").append(LOG_FILE);
     }
+// создание меню НАСТРОЕК
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // TODO Auto-generated method stub
+        menu.add(0, 0, 0, R.string.time_reqest);
+        menu.add(0,1,1,R.string.num_column);
 
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // TODO Auto-generated method stub
 
+        if(item.getItemId()==0){
+        showDialog(1);}
+        if(item.getItemId()==1){
+        showDialog(2);}
+        return super.onOptionsItemSelected(item);
+    }
+
+    protected Dialog onCreateDialog(int id) {
+        if (id == DIALOG_TIME) {
+            int hour = TIME_TIMER/(60*60*1000);
+            int minute = ((TIME_TIMER)%(1000*60*60))/60000;
+            TimePickerDialog tpd = new TimePickerDialog(this, myCallBack, hour, minute, true);
+            return tpd;
+        }
+        return super.onCreateDialog(id);
+    }
+
+    TimePickerDialog.OnTimeSetListener myCallBack = new TimePickerDialog.OnTimeSetListener() {
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            TIME_TIMER = hourOfDay*60*60*1000+minute * 60*1000;
+        }
+    };
 }
