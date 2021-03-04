@@ -46,12 +46,13 @@ public class MyTask extends AsyncTask <String, Void, String> {
         if (doc!=null)
 
 
-        {// запуск поиска RSS разные комбинации
+        {// собираем все похожее на ссылки RSS  ленты
 
             result.addAll(createrAllLinkRss( doc, doc.select("link"), "href", "rss"));
             result.addAll(createrAllLinkRss( doc, doc.select("link"), "href", "feed"));
             result.addAll(createrAllLinkRss( doc, doc.select("a"), "href", "rss"));
             result.addAll(createrAllLinkRss( doc, doc.select("a"), "href", "feed"));
+            result.addAll(createrAllLinkRss( doc, doc.select("link"), "href", "api"));
 
           /*  result.add(getURLList( doc, doc.select("link"), "href", "rss"));// поиск в ленте
             result.add(getURLList( doc, doc.select("link"), "href", "rss/news"));// поиск в ленте
@@ -71,7 +72,7 @@ public class MyTask extends AsyncTask <String, Void, String> {
             titl = doc.title();
         }
 
-
+// проверяем валидность лент
         results.add(checerURL(result));
 
         results.add(titl);
@@ -102,15 +103,17 @@ public class MyTask extends AsyncTask <String, Void, String> {
          String r="N";
 
          for (Element link : title) {
-            if (link.attr(atr).contains(searchContains))
+            if (link.toString().contains(searchContains))
              {res.add(link.absUrl(atr)); }
         }
        for(String str: res)
-        {resList.add(str);}
+       {
+        resList.add(str);
+       }
         return  resList;
     }
 
-    // метод проверяет ссылки на ленты путем их загрузки и проверки соответствия заголовка
+    // метод проверяет ссылки на ленты путем их загрузки и проверки тегов соответсвующих  в форматe RSS
     private String checerURL(ArrayList<String> list){
 
         Document doc = null;//Здесь хранится будет разобранный html документ
@@ -124,7 +127,7 @@ public class MyTask extends AsyncTask <String, Void, String> {
             if(doc!=null){
             String el = doc.toString();
             if (el.contains("<channel>")&&el.contains("<title>")&&el.contains("<link>") ) return url;
-            if (el.contains("rss")) return url;
+            
             }
         }
      return "BAD URL";

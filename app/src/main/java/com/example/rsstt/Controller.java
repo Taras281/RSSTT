@@ -44,6 +44,7 @@ public class Controller implements  retrofit2.Callback<RSSFeed> {
     }
 
     public void start() {
+
         call = vogellaAPI.loadRSSFeed(RSS);
         if (RSS.equals("rss/news"))
             call = vogellaAPI.loadRSSFeedNews();
@@ -51,6 +52,16 @@ public class Controller implements  retrofit2.Callback<RSSFeed> {
             call = vogellaAPI.loadRSSFeedPHP();
         if (RSS.equals("news.rss"))
             call = vogellaAPI.loadRSSFeedNewsPointRss();
+        if (RSS.contains("city-news?")){
+            String t = RSS.substring(0, RSS.indexOf("&"));// ПАРСЕР СТРОКИ ТИПА---- https://zelenogradsk.online/home/city-news?format=feed&type=rss
+            t = t.substring(t.indexOf("=")+1);
+            String tv = RSS.substring(RSS.indexOf("&")+1);
+            tv = tv.substring(tv.indexOf("=")+1);
+            call = vogellaAPI.loadRSSQery(t,tv);}
+
+
+
+
 
         call.enqueue(this);
     }
