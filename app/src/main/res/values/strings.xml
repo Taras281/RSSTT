@@ -15,4 +15,7 @@
     <string name="make_link">"Make link</string>
     <string name="num_column">"Num column</string>
     <string name="time_reqest">"Feed request period</string>
+    <string name="result_serach">"Result search RSS</string>
+    <string name="creat_item">"found the tape, сreat item?</string>
+    <string name="nothing_serach">"We didn't find anything</string>
 </resources>

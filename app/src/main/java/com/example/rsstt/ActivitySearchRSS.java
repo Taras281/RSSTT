@@ -103,8 +103,6 @@ public class ActivitySearchRSS extends AppCompatActivity implements ListenerAsyn
 
     @Override
     public void setData(ArrayList<String> data) {
-
-
         Message msg;
         msg=h.obtainMessage(111, data);
         h.sendMessage(msg);

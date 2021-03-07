@@ -19,6 +19,8 @@
             android:enabled="true"
             android:exported="true"></service>
         <activity android:name=".ActivitySearchRSS"></activity>
+        <activity android:name=".ActivitySearchRSSGood"></activity>
+
         <activity android:name=".ListActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

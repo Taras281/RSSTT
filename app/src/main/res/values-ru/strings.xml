@@ -15,4 +15,7 @@
     <string name="make_link">Cделать ссылку</string>
     <string name="num_column">Число столбцов</string>
     <string name="time_reqest">Период запроса лент</string>
+    <string name="result_serach">"Результаты поиска RSS</string>
+    <string name="creat_item">"Нашли ленту, сделать иконку?</string>
+    <string name="nothing_serach">"Ничего не нашли</string>
 </resources>

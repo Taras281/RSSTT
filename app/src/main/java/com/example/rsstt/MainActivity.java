@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -25,16 +28,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.ScrollView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -66,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements CallbackFromContr
     LinearLayout lv;
     FloatingActionButton fab;
     static Context mainactivityContext;
-    Activity mainActivityActivity;
+    static Activity mainActivityActivity;
     static Application application;
     CreatViewtem cvi;
     int MARGIN,  widhtItem, elevation;
@@ -78,10 +84,10 @@ public class MainActivity extends AppCompatActivity implements CallbackFromContr
     RSSFeed rss;
     Controller controller;
     boolean isRotate = false;
-    int NUM_COLUMN=3;
+    static int NUM_COLUMN=3;
     static int TIME_TIMER=60_000;// время запроса лент
     int DIALOG_TIME = 1;
-    int DIALOG_NUM_COLUMN = 2;
+     int DIALOG_NUM_COLUMN = 2;
 
 
     final String SAVED_NAME = "SAVED_NAME";
@@ -104,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements CallbackFromContr
     float historyX;// точки для слежения за пальцем
     float historyY;
     int TIME_DELITE = 3000;// время нажатия за которое удалится иконка с лентой
+    FragmentTransaction transaction;
 
 @Override
 public void onResume() {
@@ -149,7 +156,7 @@ public void onStop() {
             public void onClick(View v) {
                 isRotate = ViewAnimation.rotateFab(v, !isRotate);
 
-                Intent intent = new Intent(MainActivity.mainactivityContext, ActivitySearchRSS.class);
+                Intent intent = new Intent(MainActivity.mainactivityContext, ActivitySearchRSSGood.class);
                 startActivityForResult(intent, 111);
             }
         });
@@ -560,6 +567,13 @@ public void onStop() {
             TimePickerDialog tpd = new TimePickerDialog(this, myCallBack, hour, minute, true);
             return tpd;
         }
+        if ( id==DIALOG_NUM_COLUMN){
+            DialocChecNum myDialogFragment = new DialocChecNum();
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            myDialogFragment.show(transaction, "dialog");
+            myDialogFragment.register(this);
+   }
         return super.onCreateDialog(id);
     }
 
@@ -568,4 +582,38 @@ public void onStop() {
             TIME_TIMER = hourOfDay*60*60*1000+minute * 60*1000;
         }
     };
+
+        public void repaint(){
+            creatDisplay(listUrlPicture, listNameRss, listChecer, NUM_COLUMN);
+     }
+
+
+public static class DialocChecNum extends DialogFragment {
+            CallbackFromController listic;
+
+            public void register(CallbackFromController act){
+                listic = act;
+            }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater Linflater = LayoutInflater.from(MainActivity.mainactivityContext);
+        View v = Linflater.inflate(R.layout.number_picker, null);
+        NumberPicker np = (NumberPicker)v.findViewById(R.id.numberPicker1);
+        np.setMaxValue(50);
+        np.setMinValue(1);
+        builder.setTitle("Число столбцов")
+                  .setView(v)
+                  .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                       NUM_COLUMN=np.getValue();
+                       listic.repaint();
+                       dialog.cancel();
+                    }
+                });
+        return builder.create();
+    }
+}
 }
