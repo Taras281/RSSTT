@@ -68,7 +68,8 @@ public class ActivitySearchRSSGood extends AppCompatActivity implements Listener
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
             Log.d("TAG", "URL ----- "+ request.getUrl().toString());
             String f = request.getUrl().toString();
-            if(check) view.loadUrl(f); // первая загрузка WebView  показываем страницу
+            if (search(f)) {check=true;}
+            if(check) {view.loadUrl(f);} // первая загрузка WebView  показываем страницу или зашли в окно поиска
             if(!check) // проверка ссылок после второго и последующих вызовов метода
             if (validURL(f))
             {   mt = new MyTask();
@@ -83,6 +84,10 @@ public class ActivitySearchRSSGood extends AppCompatActivity implements Listener
         }
         private boolean validURL(String data){
             if (data.contains("https://")|| data.contains("http://")) return true;
+            return false;
+        }
+        private boolean search(String str){
+            if (str.contains("search")) return true;
             return false;
         }
 
